@@ -454,7 +454,7 @@ main (int    argc,
       return exit_code;
     }
 
-  console_fd = open ("/dev/tty0", O_RDWR);
+  console_fd = open ("/dev/console", O_RDWR);
 
   buffer = ply_frame_buffer_new (NULL);
 
