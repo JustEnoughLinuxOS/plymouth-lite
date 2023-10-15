@@ -417,15 +417,8 @@ animate_at_time (ply_frame_buffer_t *buffer,
   width = ply_image_get_width (image);
   height = ply_image_get_height (image);
 
-  ply_frame_buffer_get_size (buffer, &area);
-  area.x = (area.width / 2) - (width / 2);
-  area.y = (area.height / 2) - (height / 2);
-  area.width = width;
-  area.height = height;
-
-
   ply_frame_buffer_pause_updates (buffer);
-  ply_frame_buffer_fill_with_argb32_data(buffer, &area, 0, 0, data);
+  ply_frame_buffer_center_argb32_data(buffer, width, height, data);
   ply_frame_buffer_unpause_updates (buffer);
 
 }
@@ -464,9 +457,7 @@ main (int    argc,
       perror ("could not open framebuffer");
       return exit_code;
     }
-
-  image = ply_image_resize(image, buffer->area.width, buffer->area.height);
-
+  
   animate_at_time (buffer, image);
 
   ply_frame_buffer_close (buffer);

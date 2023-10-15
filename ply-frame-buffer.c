@@ -783,6 +783,38 @@ ply_frame_buffer_fill_with_argb32_data_with_clip (ply_frame_buffer_t      *buffe
   return ply_frame_buffer_flush (buffer);
 }
 
+bool
+ply_frame_buffer_center_argb32_data(ply_frame_buffer_t      *buffer,
+                                                   unsigned long            width,
+                                                   unsigned long            height,
+                                                   uint32_t                *data)
+{
+    assert (buffer != NULL);
+    assert (ply_frame_buffer_device_is_open (buffer));
+	
+	ply_frame_buffer_area_t area = buffer->area;
+	
+	unsigned long x, y, x1, y1, x2, y2;
+	x1 = (area.width - width) / 2;
+	y1 = (area.height - height) / 2;
+	x2 = x1 + width;
+	y2 = y1 + height;
+	
+	for (y=0; y<area.height; y++) {
+		for (x=0; x<area.width; x++) {
+			uint32_t pixel_value = 0xff000000;
+			if (x>=x1 && x<x2 && y>=y1 && y<y2) {
+				pixel_value = data[(y-y1) * width + (x-x1)];
+			}
+			buffer->shadow_buffer[(y * area.width) + x] = pixel_value;
+		}
+	}
+
+    ply_frame_buffer_add_area_to_flush_area (buffer, &area);
+
+    return ply_frame_buffer_flush (buffer);
+}
+
 bool 
 ply_frame_buffer_fill_with_argb32_data(ply_frame_buffer_t      *buffer,
                                                    ply_frame_buffer_area_t *area,

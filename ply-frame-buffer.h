@@ -112,6 +112,12 @@ bool ply_frame_buffer_fill_with_gradient (ply_frame_buffer_t      *buffer,
 					  uint32_t                 start,
 					  uint32_t                 end);
 
+bool
+ply_frame_buffer_center_argb32_data(ply_frame_buffer_t      *buffer,
+                                                 unsigned long            width,
+                                                 unsigned long            height,
+                                                 uint32_t                *data);
+
 bool ply_frame_buffer_fill_with_argb32_data (ply_frame_buffer_t      *buffer,
                                              ply_frame_buffer_area_t  *area,
                                              unsigned long        x,
